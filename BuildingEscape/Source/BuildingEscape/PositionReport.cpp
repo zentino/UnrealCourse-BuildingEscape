@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PositionReport.h"
+// add autocomplete
+#include "GameFramework/Actor.h"
 
 
 // Sets default values for this component's properties
@@ -18,8 +20,12 @@ UPositionReport::UPositionReport()
 void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
+	/*
+	FText -> representing things to the user
+	FString -> mutable objects used behind the scenes
+	*/
+	FString ObjectName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("Position report reporting for %s"), *ObjectName);
 	
 }
 
