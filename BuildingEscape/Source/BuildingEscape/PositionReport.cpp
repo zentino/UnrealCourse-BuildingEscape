@@ -25,7 +25,9 @@ void UPositionReport::BeginPlay()
 	FString -> mutable objects used behind the scenes
 	*/
 	FString ObjectName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Position report reporting for %s"), *ObjectName);
+	FString ObjectPos = GetOwner()->GetTransform().GetLocation().ToString();
+	//FString ObjectLocation = GetOwner()->GetActorLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("%s is located at %s"), *ObjectName, *ObjectPos);
 	
 }
 
