@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "OpenDoor.h"
+#include "Engine/World.h"
 #include "GameFramework/Actor.h"
+
 
 
 // Sets default values for this component's properties
@@ -20,6 +22,8 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// A pawn is a Actor
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void UOpenDoor::OpenDoor()
@@ -45,9 +49,11 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		AActor* Owner = GetOwner();
 		UE_LOG(LogTemp, Error, TEXT("%s has no TriggerActor assigned!"), *Owner->GetName());
 	}
-	else if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	else if (PressurePlate != NULL)
 	{
-		OpenDoor();
+		if (PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+			OpenDoor();
+		}
 	}
 }
 
