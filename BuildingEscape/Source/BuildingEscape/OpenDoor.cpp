@@ -20,6 +20,10 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
+}
+
+void UOpenDoor::OpenDoor()
+{
 	// Find the owning Actor
 	AActor* Owner = GetOwner();
 	// Create a rotator
@@ -34,6 +38,16 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// Poll the Trigger Volume 
+	// if the ActorThatOpens is in the volume
+	if (ActorThatOpens == NULL)
+	{
+		AActor* Owner = GetOwner();
+		UE_LOG(LogTemp, Error, TEXT("%s has no TriggerActor assigned!"), *Owner->GetName());
+	}
+	else if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+	{
+		OpenDoor();
+	}
 }
 
