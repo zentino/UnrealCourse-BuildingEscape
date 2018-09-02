@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
 #include "Grabber.generated.h"
 
 
@@ -32,6 +33,10 @@ private:
 	/// In the very beginning when we're constructing this object, we don't necessarily know
 	/// if the PhysicsHandle has spun up before this Grabber
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
-		
+	
+	UInputComponent* InputComponent = nullptr;
+
+	// Ray-cast and grab what's in reach
+	void Grab();
 	
 };

@@ -32,10 +32,30 @@ void UGrabber::BeginPlay()
 	}
 	else 
 	{
-		UE_LOG(LogTemp, Error, TEXT("Physics handle component of %s is missing!"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("Physics handle component of %s is missing!"), *GetOwner()->GetName())
 	}
+
+	/// PawnInputComponent = GetOwner()->InputComponent; works too?
+	/// Look for attached Input Components (only appears at run time)
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+
+	if (InputComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pawn input component of %s found!"), *GetOwner()->GetName())
+			/// Bind the input action
+			InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Pawn input component of %s is missing!"), *GetOwner()->GetName())
+	}
+
 }
 
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grab pressed!"))
+}
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
