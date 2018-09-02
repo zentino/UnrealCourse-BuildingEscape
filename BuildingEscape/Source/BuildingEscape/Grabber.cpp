@@ -53,19 +53,39 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 
 
-	// Draw a red trace in the world to visualize
+	/// Draw a red trace in the world to visualize
 	DrawDebugLine(
 		GetWorld(),
 		PlayerViewPointLocation,
 		LineTraceEnd,
 		FColor(255, 0, 0),
 		false,
-		0.f, // Because it is not persisting, lifetime is not relevant
+		0.f, /// Because it is not persisting, lifetime is not relevant
 		0.f,
 		10.f
 	);
 
-	// See what we hit
+	/// Setup query parameters
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+
+	/// Line-trace (ALA ray-cast) out to reach distance
+	FHitResult Hit;
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT Hit,
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), /// ECollisionChannel is an enum
+		TraceParameters
+	);
+
+	// Log the name of the Actor to the console
+	AActor * ActorHit = Hit.GetActor();
+	if (ActorHit) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s got hit by the Line-trace"), *(ActorHit->GetName()))
+	}
+
+	/// See what we hit
 
 
 }
