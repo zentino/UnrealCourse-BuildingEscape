@@ -77,4 +77,5 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 # Ignore Unreal StarterContent
-Content/StarterContent/
+Content/StarterContent/HDRI
+Content/StarterContent/Textures
