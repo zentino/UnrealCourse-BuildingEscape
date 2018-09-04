@@ -2,6 +2,7 @@
 
 #include "OpenDoor.h"
 #include "Engine/World.h"
+#include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
 
 #define OUT
@@ -43,7 +44,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Poll the Trigger Volume 
-	if (GetTotalMassOfActorsOnPlate() > 50.f) // TODO make into a parameter
+	if (GetTotalMassOfActorsOnPlate() > 30.f) // TODO make into a parameter
 		{
 			OpenDoor();
 			LastDoorOpenTime = GetWorld()->GetTimeSeconds();
@@ -63,8 +64,21 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 
 	// Find all the overlapping actors
 	TSet<AActor*> OverlappingActors;
-	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+	if (PressurePlate != nullptr)
+	{
+		PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+	}
 	// Iterate through them adding their masses
+	for (const auto* OverlappingActor : OverlappingActors)
+	{
+		if (OverlappingActor != nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%s on pressure plate"), *OverlappingActor->GetName());
+			/// "PrimitiveComponents are SceneComponents that contain or generate some sort of geometry, generally to be rendered or used as collision data."
+			TotalMass += OverlappingActor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+		}
+		
+	}
 
 	return TotalMass;
 }

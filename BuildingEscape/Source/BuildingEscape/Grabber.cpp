@@ -52,8 +52,6 @@ void UGrabber::SetupInputComponent()
 	}
 }
 
-
-
 void UGrabber::Grab()
 {
 	/// LINE TRACE and see if we reach any actors with physics body collision channel set
